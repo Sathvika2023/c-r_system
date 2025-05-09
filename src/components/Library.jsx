@@ -1,29 +1,28 @@
-import React, { useState } from 'react';
-
-const initialBooks = [
-  { id: 1, title: 'Introduction to Algorithms', subject: 'Computer Science', domain: 'Algorithms', cover: 'https://via.placeholder.com/80x100?text=Algorithms' },
-  { id: 2, title: 'Operating System Concepts', subject: 'Computer Science', domain: 'Operating Systems', cover: 'https://via.placeholder.com/80x100?text=OS' },
-  { id: 3, title: 'Database System Concepts', subject: 'Computer Science', domain: 'Databases', cover: 'https://via.placeholder.com/80x100?text=DB' },
-  { id: 4, title: 'Artificial Intelligence: A Modern Approach', subject: 'Computer Science', domain: 'AI', cover: 'https://via.placeholder.com/80x100?text=AI' },
-  { id: 5, title: 'Linear Algebra Done Right', subject: 'Mathematics', domain: 'Algebra', cover: 'https://via.placeholder.com/80x100?text=Algebra' },
-  { id: 6, title: 'Calculus', subject: 'Mathematics', domain: 'Calculus', cover: 'https://via.placeholder.com/80x100?text=Calculus' },
-];
+import React, { useState, useEffect } from 'react';
 
 const Library = () => {
-  const [books] = useState(initialBooks);
+  const [books, setBooks] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedDomain, setSelectedDomain] = useState(null);
+
+  // Fetch books from backend when component mounts
+  useEffect(() => {
+    fetch('http://localhost:5000/books')
+      .then((res) => res.json())
+      .then((data) => setBooks(data))
+      .catch((error) => console.error('Error fetching books:', error));
+  }, []);
+  console.log(books)
 
   const filteredBooks = books.filter(
     (book) =>
       (book.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      book.subject.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      book.domain.toLowerCase().includes(searchTerm.toLowerCase())) &&
+        book.subject.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        book.domain.toLowerCase().includes(searchTerm.toLowerCase())) &&
       (selectedDomain ? book.domain === selectedDomain : true)
   );
 
   const domains = [...new Set(books.map((book) => book.domain))];
-
   const recentBooks = books.slice(-3).reverse();
 
   return (
@@ -67,8 +66,12 @@ const Library = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {filteredBooks.map((book) => (
-            <div key={book.id} className="flex items-center border border-gray-300 rounded p-2">
-              <img src={book.cover} alt={book.title} className="w-20 h-24 object-cover mr-4" />
+            <div key={book._id} className="flex items-center border border-gray-300 rounded p-2">
+              <img
+                src={book.cover || 'https://via.placeholder.com/80x100?text=Book'}
+                alt={book.title}
+                className="w-20 h-24 object-cover mr-4"
+              />
               <div>
                 <h3 className="font-semibold">{book.title}</h3>
                 <p className="text-sm text-gray-600">{book.subject} / {book.domain}</p>
@@ -83,8 +86,12 @@ const Library = () => {
         <h2 className="font-semibold mb-2">Recent Books</h2>
         <ul>
           {recentBooks.map((book) => (
-            <li key={book.id} className="flex items-center mb-2">
-              <img src={book.cover} alt={book.title} className="w-12 h-16 object-cover mr-2" />
+            <li key={book._id} className="flex items-center mb-2">
+              <img
+                src={book.cover || 'https://via.placeholder.com/50x60?text=Book'}
+                alt={book.title}
+                className="w-12 h-16 object-cover mr-2"
+              />
               <span className="text-sm">{book.title}</span>
             </li>
           ))}
