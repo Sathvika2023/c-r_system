@@ -10,6 +10,9 @@ import Faculty from './components/Faculty';
 import Students from './components/Students';
 import Research from './components/Research';
 import Library from './components/Library';
+import Login from './components/Login';
+import Welcome from './components/Welcome';
+import ProtectedRoute from './components/ProtectedRoute';
 
 const AppContent = () => {
   const location = useLocation();
@@ -73,6 +76,12 @@ const AppContent = () => {
         <Route path="/research" element={<Research />} />
         <Route path="/library" element={<Library />} />
         <Route path="/cse-clubs" element={<CSEClubsPage />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/welcome" element={
+                    <ProtectedRoute>
+                        <Welcome />
+                    </ProtectedRoute>
+                } />
       </Routes>
     </>
   );

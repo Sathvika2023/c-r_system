@@ -30,8 +30,10 @@ const connectDatabases = async () => {
       //   useNewUrlParser: true,
       //   useUnifiedTopology: true,
       // }
-      'mongodb+srv://admin:Power30%402025@college-database.0nefxgd.mongodb.net/?retryWrites=true&w=majority&appName=college-database'
-    );
+      // 'mongodb+srv://admin:Power30%402025@college-database.0nefxgd.mongodb.net/?retryWrites=true&w=majority&appName=college-database'
+      process.env.MONGO_URI
+    )
+    .then(() => console.log('MongoDB connected'));
 
     // Now use separate DBs
     const libraryDB = mongoose.connection.useDb('Library');
