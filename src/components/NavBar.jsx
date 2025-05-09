@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 
 const NavBar = () => {
   const [academicsOpen, setAcademicsOpen] = useState(false);
@@ -51,15 +52,27 @@ const NavBar = () => {
                 </div>
               )}
             </div>
-            {navItems.map((item) => (
-              <Link
-                key={item}
-                to={item.toLowerCase() === 'home' ? '/' : `/${item.toLowerCase().replace(/\s+/g, '-')}`}
-                className="hover:bg-gray-700 px-3 py-2 rounded-md text-sm font-medium"
-              >
-                {item}
-              </Link>
-            ))}
+            {navItems.map((item) => {
+              const itemSlug = item.toLowerCase().replace(/\s+/g, '-');
+              // Check if item is 'CSE Clubs' for page navigation
+              return item === 'CSE Clubs' ? (
+                <Link
+                  key={item}
+                  to="/cse-clubs" // Navigate to the CSE Clubs page
+                  className="hover:bg-gray-700 px-3 py-2 rounded-md text-sm font-medium"
+                >
+                  {item}
+                </Link>
+              ) : (
+                <Link
+                  key={item}
+                  to={item.toLowerCase() === 'home' ? '/' : `/${itemSlug}`} // Scroll to the section
+                  className="hover:bg-gray-700 px-3 py-2 rounded-md text-sm font-medium"
+                >
+                  {item}
+                </Link>
+              );
+            })}
           </div>
         </div>
       </div>
