@@ -10,50 +10,12 @@ import Faculty from './components/Faculty';
 import Students from './components/Students';
 import Research from './components/Research';
 import Library from './components/Library';
-import Login from './components/Login';
 import Welcome from './components/Welcome';
 import ProtectedRoute from './components/ProtectedRoute';
+import FacultyLogin from './components/FacultyLogin';
 
 const AppContent = () => {
   const location = useLocation();
-
-  // return (
-  //   // <Router>
-  //     <NavBar />
-  //     {location.pathname === '/' ? (
-  //       <div className="flex flex-col items-center space-y-8 p-4">
-  //         <div className="w-1/2">
-  //           <FloatingNews />
-  //         </div>
-  //         <div className="w-full max-w-6xl">
-  //           <HomeContent />
-  //         </div>
-  //       </div>
-  //     ) : (
-  //       <Routes>
-  //         <Route path="/admin" element={<Admin />} />
-  //         <Route path="/academics" element={<Academics />} />
-  //         <Route path="/faculty" element={<Faculty />} />
-  //         <Route path="/students" element={<Students />} />
-  //         <Route path="/research" element={<Research />} />
-  //         <Route path="/library" element={<Library />} />
-  //         <Route path="/CSEClubsPage" element={<CSEClubsPage/>}/>
-  //       </Routes>
-  //     )}
-  //     {location.pathname !== '/' && (
-  //       <Routes>
-  //         {/* <Route path="/" element={<HomeContent />} /> */}
-  //       {/* </Routes>
-  //       <Routes> */}
-  //       <Route path="/" element={<div><FloatingNews /><HomeContent /></div>} />
-  //       <Route path="/cse-clubs" element={<CSEClubsPage />} />
-  //     </Routes>
-  //     )}
-  //   //  </Router>
-  // );
-      
-  
-  // );
 
   return (
     <>
@@ -76,18 +38,15 @@ const AppContent = () => {
         <Route path="/research" element={<Research />} />
         <Route path="/library" element={<Library />} />
         <Route path="/cse-clubs" element={<CSEClubsPage />} />
-        <Route path="/login" element={<Login />} />
         <Route path="/welcome" element={
                     <ProtectedRoute>
                         <Welcome />
                     </ProtectedRoute>
                 } />
+        <Route path="/faculty-login" element={<FacultyLogin />} />
       </Routes>
     </>
   );
-
-
-
 };
 
 

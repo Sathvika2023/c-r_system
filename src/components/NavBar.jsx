@@ -5,7 +5,9 @@ import { Link } from 'react-router-dom';
 const NavBar = () => {
   const [academicsOpen, setAcademicsOpen] = useState(false);
 
-  const navItems = ['Home', 'Research', 'Library', 'Alumni', 'CSE Clubs'];
+  const navItems = ['Research', 'Library', 'Alumni', 'CSE Clubs'];
+
+  const [homeOpen, setHomeOpen] = useState(false);
 
   return (
     <nav className="bg-gray-800 text-white relative">
@@ -21,6 +23,32 @@ const NavBar = () => {
           </div>
           {/* Navigation Items */}
           <div className="hidden md:flex space-x-8 items-center relative">
+            <div
+              className="relative"
+              onMouseEnter={() => setHomeOpen(true)}
+              onMouseLeave={() => setHomeOpen(false)}
+            >
+              <a
+                href="/"
+                className="hover:bg-gray-700 px-3 py-2 rounded-md text-sm font-medium focus:outline-none"
+              >
+                Home
+              </a>
+              {homeOpen && (
+                <div
+                  className="absolute top-full left-0 mt-1 w-48 bg-gray-700 rounded-md shadow-lg z-10"
+                  onMouseEnter={() => setHomeOpen(true)}
+                  onMouseLeave={() => setHomeOpen(false)}
+                >
+                  <Link
+                    to="/faculty-login"
+                    className="block px-4 py-2 text-sm hover:bg-gray-600"
+                  >
+                    Faculty Login
+                  </Link>
+                </div>
+              )}
+            </div>
             <div
               className="relative"
               onMouseEnter={() => setAcademicsOpen(true)}
@@ -66,7 +94,7 @@ const NavBar = () => {
               ) : (
                 <Link
                   key={item}
-                  to={item.toLowerCase() === 'home' ? '/' : `/${itemSlug}`} // Scroll to the section
+                  to={`/${itemSlug}`} // Scroll to the section
                   className="hover:bg-gray-700 px-3 py-2 rounded-md text-sm font-medium"
                 >
                   {item}
