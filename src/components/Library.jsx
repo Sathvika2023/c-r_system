@@ -14,13 +14,42 @@ const Library = () => {
   }, []);
   console.log(books)
 
-  const filteredBooks = books.filter(
-    (book) =>
-      (book.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        book.subject.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        book.domain.toLowerCase().includes(searchTerm.toLowerCase())) &&
-      (selectedDomain ? book.domain === selectedDomain : true)
+  // const filteredBooks = books.filter(
+  //   (book) =>
+  //     ((book.title.toLowerCase()||"").includes(searchTerm.toLowerCase()) ||
+  //      ( book.subject.toLowerCase()||"").includes(searchTerm.toLowerCase()) ||
+  //       (book.domain.toLowerCase()||"").includes(searchTerm.toLowerCase())) &&
+  //     (selectedDomain ? book.domain === selectedDomain : true)
+  // );
+
+  const filteredBooks = books.filter((book) => {
+  const title = book.title ? book.title.toLowerCase() : "";
+  const subject = book.subject ? book.subject.toLowerCase() : "";
+  const domain = book.domain ? book.domain.toLowerCase() : "";
+  
+  return (
+    (title.includes(searchTerm.toLowerCase()) ||
+     subject.includes(searchTerm.toLowerCase()) ||
+     domain.includes(searchTerm.toLowerCase())) &&
+    (selectedDomain ? book.domain === selectedDomain : true)
   );
+});
+
+useEffect(() => {
+  const fetchBooks = async () => {
+    try {
+      const res = await fetch('http://localhost:5000/books');
+      if (!res.ok) throw new Error('Failed to fetch books');
+      const data = await res.json();
+      setBooks(data);
+    } catch (error) {
+      console.error('Error fetching books:', error);
+      // You might want to set some error state here to show to the user
+    }
+  };
+  
+  fetchBooks();
+}, []);
 
   const domains = [...new Set(books.map((book) => book.domain))];
   const recentBooks = books.slice(-3).reverse();
